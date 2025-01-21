@@ -19,10 +19,10 @@ The Open Adventure Engine Flask Server powers a single game instance, handling c
 
 ### Steps
 
-1. Clone the repository:
+1. Clone the repository (SSH):
 
     ```bash
-    git clone https://github.com/[your-repo]/open-adventure-engine-flask.git
+    git clone git@github.com:Kindred-Systems/88-SRP-01-FSK.git
     cd open-adventure-engine-flask
     ```
 
@@ -42,7 +42,28 @@ The Open Adventure Engine Flask Server powers a single game instance, handling c
     docker-compose up
     ```
 
-4. Access the server API:
+4. Configure environment variables:
+
+    Create a file named `.env` in the root of the project directory (same level as `docker-compose.yml`). Below is an example structure with placeholder values:
+
+    ```plaintext
+    # Flask app variables
+    SECRET_KEY=your_secret_key
+
+    # PostgreSQL database variables
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=yourpassword
+    POSTGRES_DB=game_instance
+    DATABASE_URI=postgresql://postgres:yourpassword@db:5432/game_instance
+    ```
+
+    - `SECRET_KEY`: A secret key for Flask application security. Use a long, random string in production.
+    - `POSTGRES_USER`: The username for the PostgreSQL database.
+    - `POSTGRES_PASSWORD`: The password for the PostgreSQL user.
+    - `POSTGRES_DB`: The name of the PostgreSQL database.
+    - `DATABASE_URI`: The URI connection string for SQLAlchemy to connect to the database.
+
+5. Access the server API:
     The server runs on [http://localhost:5000](http://localhost:5000).
 
 ## Interaction via Flutter
@@ -71,19 +92,22 @@ This server is designed to be used with the Flutter frontend, which serves as th
 ## Directory Structure
 
 ```plaintext
-flask-server/
-├── app/
-│   ├── __init__.py        # App factory
-│   ├── routes.py          # Game logic API
-│   ├── auth.py            # Authentication
-│   ├── models.py          # Database models
-│   ├── game_logic.py      # Core mechanics (future expansion)
-│   └── config.py          # App configuration
-├── requirements.txt       # Python dependencies
-├── Dockerfile             # Containerize the Flask app
-├── docker-compose.yml     # Orchestrates container deployment
-└── README.md              # This documentation
-└── LICENSE                # License
+88-SRP-01-FSK/
+├── gsrv/                    # Flask app directory
+│   ├── __init__.py          # App factory
+│   ├── auth.py              # Authentication routes
+│   ├── config.py            # Configuration
+│   ├── game_logic.py        # Game logic
+│   ├── models.py            # Database models
+│   ├── routes.py            # General routes
+│   ├── Dockerfile           # Dockerfile for Flask app
+├── psql/                    # PostgreSQL directory
+│   ├── init.sql             # SQL initialization script
+│   └── Dockerfile           # Dockerfile for PostgreSQL
+├── requirements.txt         # Python dependencies
+├── docker-compose.yml       # Orchestration for Flask and PostgreSQL
+└── README.md                # Documentation
+└── LICENSE                  # License
 ```
 
 ## Roadmap
