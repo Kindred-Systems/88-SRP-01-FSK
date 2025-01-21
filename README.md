@@ -83,6 +83,7 @@ flask-server/
 ├── Dockerfile             # Containerize the Flask app
 ├── docker-compose.yml     # Orchestrates container deployment
 └── README.md              # This documentation
+└── LICENSE                # License
 ```
 
 ## Roadmap
