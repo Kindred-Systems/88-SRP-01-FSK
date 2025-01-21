@@ -8,20 +8,23 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 
 def create_app():
+    # Create the Flask app
     app = Flask(__name__)
-    app.config.from_object('gsrv.config.Config')
+    app.config.from_object('app.config.Config')  # Load configuration
 
+    # Initialize extensions
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
     # Import and register blueprints
-    from gsrv.routes import main
-    from gsrv.auth import auth
+    from app.routes import main
+    from app.auth import auth
     app.register_blueprint(main)
     app.register_blueprint(auth)
 
+    # Ensure database tables are created
     with app.app_context():
-        db.create_all()  # Automatically create database tables
+        db.create_all()
 
     return app
